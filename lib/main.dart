@@ -30,6 +30,21 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  List<String> expenses = [];
+
+  void _addExpense() async {
+    final result = await showDialog(
+      context: context,
+      builder: (_) => AddExpenseDialog(),
+    );
+
+    if (result != null) {
+      setState(() {
+        expenses.add(result);
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -83,6 +98,52 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _addExpense,
+        child: Icon(Icons.add),
+      ),
+    );
+  }
+}
+
+class AddExpenseDialog extends StatefulWidget {
+  @override
+  _AddExpenseDialogState createState() => _AddExpenseDialogState();
+}
+
+class _AddExpenseDialogState extends State<AddExpenseDialog> {
+  final TextEditingController _expenseController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: Text('Ajouter une dépense'),
+      content: TextField(
+        controller: _expenseController,
+        decoration: InputDecoration(
+          labelText: 'Dépense',
+        ),
+      ),
+      actions: [
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          child: Text('Annuler'),
+        ),
+        ElevatedButton(
+          onPressed: () {
+            final String expense = _expenseController.text;
+
+            if (expense.isNotEmpty) {
+              Navigator.of(context).pop(expense);
+            } else {
+              // Afficher une erreur ou une indication invalide
+            }
+          },
+          child: Text('Ajouter'),
+        ),
+      ],
     );
   }
 }
