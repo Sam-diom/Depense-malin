@@ -1,4 +1,5 @@
 // main.dart
+import 'package:depense_malin/bottomNav_bar.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -16,6 +17,16 @@ class MyApp extends StatelessWidget {
       title: 'Depense Malin',
       theme: ThemeData(
         primarySwatch: Colors.blueGrey,
+        // hintColor: Colors.amber,
+        // canvasColor: Color.fromRGBO(255, 254, 229, 1),
+        // textTheme: ThemeData.light().textTheme.copyWith(
+        //   bodyText1: TextStyle(
+        //     color: Color.fromRGBO(20, 51,51, 1)
+        //   ),
+        //   bodyText2: TextStyle(
+        //     color: Color.fromRGBO(20, 51,51, 1)
+        //   ),
+        // )
       ),
       home: const HomePage(),
     );
@@ -31,119 +42,35 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   List<String> expenses = [];
-
-  void _addExpense() async {
-    final result = await showDialog(
-      context: context,
-      builder: (_) => AddExpenseDialog(),
-    );
-
-    if (result != null) {
-      setState(() {
-        expenses.add(result);
-      });
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBar(
-            floating: true,
-            pinned: true,
-            snap: false,
-            centerTitle: false,
-            title: const Text('Depense Malin'),
-            actions: [
-              IconButton(
-                icon: const Icon(Icons.list_sharp),
-                onPressed: () {},
-              ),
-            ],
-            bottom: AppBar(
-              title: Container(
-                width: double.infinity,
-                height: 40,
-                color: Colors.white,
-                child: const Center(
-                  child: TextField(
-                    decoration: InputDecoration(
-                      hintText: 'Recherchez vos dépenses',
-                      prefixIcon: Icon(Icons.search),
-                      suffixIcon: null,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          // Other Sliver Widgets
-          SliverList(
-            delegate: SliverChildListDelegate([
-              const SizedBox(
-                height: 400,
-                child: Center(
-                  child: Text(
-                    'Gérez vos dépenses comme un malin 🤣',
-                  ),
-                ),
-              ),
-              Container(
-                height: 1000,
-                color: Colors.blueGrey,
-              ),
-            ]),
-          ),
-        ],
+      appBar: AppBar(
+        title: Text('Depense Malin'),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _addExpense,
-        child: Icon(Icons.add),
-      ),
+     body: Bottom_Nav_Bar(),
+    //  ListView.builder(
+    //               itemCount: 5,
+    //               itemBuilder: (BuildContext context, int index) {
+    //                 return
+    //                 //  InkWell(
+    //                 //   onTap: (){},
+    //                 //   splashColor: Theme.of(context).primaryColor,
+    //                 //   borderRadius: BorderRadius.circular(15),
+    //                   // child:
+    //                    Container(
+    //                     child: Text('Montext', style: Theme.of(context).textTheme.titleLarge,),
+    //                     decoration: BoxDecoration(
+    //                      borderRadius: BorderRadius.circular(15),
+    //                      color: Colors.black
+    //                       )
+    //                     );
+    //                 // );
+                    
+    //               }
+    //           ),
+          
     );
   }
 }
 
-class AddExpenseDialog extends StatefulWidget {
-  @override
-  _AddExpenseDialogState createState() => _AddExpenseDialogState();
-}
-
-class _AddExpenseDialogState extends State<AddExpenseDialog> {
-  final TextEditingController _expenseController = TextEditingController();
-
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-      title: Text('Ajouter une dépense'),
-      content: TextField(
-        controller: _expenseController,
-        decoration: InputDecoration(
-          labelText: 'Dépense',
-        ),
-      ),
-      actions: [
-        TextButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          child: Text('Annuler'),
-        ),
-        ElevatedButton(
-          onPressed: () {
-            final String expense = _expenseController.text;
-
-            if (expense.isNotEmpty) {
-              Navigator.of(context).pop(expense);
-            } else {
-              // Afficher une erreur ou une indication invalide
-            }
-          },
-          child: Text('Ajouter'),
-        ),
-      ],
-    );
-  }
-}
