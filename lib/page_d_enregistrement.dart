@@ -1,24 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-class AuthPage extends StatefulWidget {
-  const AuthPage({super.key, required this.onTap});
+class PageDenregistrement extends StatefulWidget {
+  const PageDenregistrement({super.key, required this.onTap});
   final Function()? onTap;
 
   @override
-  State<AuthPage> createState() => _AuthPageState();
+  State<PageDenregistrement> createState() => _PageDenregistrementState();
 }
 
-class _AuthPageState extends State<AuthPage> {
+class _PageDenregistrementState extends State<PageDenregistrement> {
   //text editing controllers
   final emailController = TextEditingController();
 
   final passwordController = TextEditingController();
+  final confirmPassword = TextEditingController();
 
-  //methode de connexion
-  void singUser() async {
-    //montrer une icon de chargement
-
+  //methode de  d'enregistrement
+  void singUserUp() async {
     showDialog(
         context: context,
         builder: (context) {
@@ -27,25 +26,28 @@ class _AuthPageState extends State<AuthPage> {
           );
         });
 
-    //try sing in
+    //try creation d'utilisateur
     try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: emailController.text, password: passwordController.text);
+      //verifions si les mots de passe entrer sont les même
+      if (passwordController.text == confirmPassword.text &&
+          passwordController.text.length >= 6) {
+        await FirebaseAuth.instance.createUserWithEmailAndPassword(
+            email: emailController.text, password: passwordController.text);
+      } else {
+        //montrer un message d'erreur mot de passe pas identique
+        monMessageDerreur('mot de passe non identique!');
+      }
+
+      // pop l'icone de chargement
     } on FirebaseAuthException catch (e) {
       // pop l'icone de chargement
       Navigator.of(context).pop();
       monMessageDerreur(e.code);
-      /* if (e.code == 'user-not-found') {
-        //mauvais email
-        messageMauvaisMail();
-      } else if (e.code == 'wrong-password') {
-        //mauvais mots de passe
-        messageMauvaisMotDePasse();
-      } */
     }
     Navigator.of(context).pop();
   }
 
+  //popup erreur d'email
   void monMessageDerreur(String text) {
     showDialog(
         context: context,
@@ -81,7 +83,7 @@ class _AuthPageState extends State<AuthPage> {
           ),
 
           Text(
-            "Bienvenue!",
+            "Créons un compte pour vous!",
             style: TextStyle(color: Colors.grey[700], fontSize: 16),
           ),
           const SizedBox(
@@ -98,17 +100,23 @@ class _AuthPageState extends State<AuthPage> {
           const SizedBox(
             height: 20,
           ),
-
+          //password textfield
           MonTextField(
             controller: passwordController,
-            hintText: 'Password',
+            hintText: 'Mot de passe',
             obscureText: true,
           ),
           const SizedBox(
-            height: 8,
+            height: 20,
+          ),
+          //confirm password textfield
+          MonTextField(
+            controller: confirmPassword,
+            hintText: 'Confirmer le mot de passe',
+            obscureText: true,
           ),
 
-          Padding(
+          /* Padding(
               padding: const EdgeInsets.symmetric(horizontal: 25.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
@@ -118,14 +126,14 @@ class _AuthPageState extends State<AuthPage> {
                     style: TextStyle(color: Colors.grey[600]),
                   )
                 ],
-              )),
+              )), */
           const SizedBox(
-            height: 30,
+            height: 40,
           ),
 
           MonButton(
-            onTap: singUser,
-            text: 'Connexion',
+            onTap: singUserUp,
+            text: "S'inscrire",
           ),
           const SizedBox(
             height: 40,
@@ -188,14 +196,14 @@ class _AuthPageState extends State<AuthPage> {
           // not a member? register now
           Row(mainAxisAlignment: MainAxisAlignment.center, children: [
             Text(
-              'Pas encore inscrit?',
+              'Vous avez déjà un compte?',
               style: TextStyle(color: Colors.grey[700]),
             ),
             const SizedBox(width: 4),
             GestureDetector(
               onTap: widget.onTap,
               child: const Text(
-                'S\'inscrire maintenant',
+                'connecter vous',
                 style: TextStyle(
                   color: Colors.blue,
                   fontWeight: FontWeight.bold,

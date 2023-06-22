@@ -1,11 +1,12 @@
 // main.dart
-import 'package:depense_malin/auth_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'auth_page2.dart';
 import 'firebase_options.dart';
 
-void main()  async  {
-   WidgetsFlutterBinding.ensureInitialized(); 
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -25,7 +26,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blueGrey,
       ),
-      home: AuthPage(),
+      home: const AutPage2(),
     );
   }
 }
@@ -39,6 +40,15 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   List<String> expenses = [];
+
+  //recuperation d'info d'utilisateur
+
+  final user = FirebaseAuth.instance.currentUser!;
+
+  //pour la deconnexion
+  void singUserOut() {
+    FirebaseAuth.instance.signOut();
+  }
 
   void _addExpense() async {
     final result = await showDialog(
@@ -63,11 +73,11 @@ class _HomePageState extends State<HomePage> {
             pinned: true,
             snap: false,
             centerTitle: false,
-            title: const Text('Depense Malin'),
+            title: const Text('Depense malin'),
             actions: [
               IconButton(
-                icon: const Icon(Icons.list_sharp),
-                onPressed: () {},
+                icon: const Icon(Icons.logout),
+                onPressed: singUserOut,
               ),
             ],
             bottom: AppBar(
