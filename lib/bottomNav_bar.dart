@@ -29,9 +29,9 @@ class Bottom_Nav_Bar extends StatelessWidget {
                         Center(
                           heightFactor: 0.6,
                           child: FloatingActionButton(
-                          //  shape: BeveledRectangleBorder(
-                          //   borderRadius: BorderRadius.zero
-                          //  ),
+                           shape: BeveledRectangleBorder(
+                            borderRadius: BorderRadius.zero
+                           ),
                             onPressed: (){},
                             backgroundColor: Theme.of(context).primaryColor,
                             child: Icon(Icons.add),
