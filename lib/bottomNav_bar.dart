@@ -1,4 +1,3 @@
-import 'package:depense_malin/add_depense.dart';
 import 'package:depense_malin/color.dart';
 import 'package:flutter/material.dart';
 
@@ -7,20 +6,63 @@ class Bottom_Nav_Bar extends StatelessWidget {
   
   const Bottom_Nav_Bar({super.key});
 
-  void _shownavbar(BuildContext ctx){
-     showBottomSheet(
-      context: ctx, 
-      builder: (_){
-         return GestureDetector(
-          onTap: (){},
-          child: Container(
-            height: 500,
-            // child: AddDepense(),
-          ),
-         );
-     }
+  void _dialogue(BuildContext context){
+     showDialog(
+      context: context, 
+      builder: (BuildContext context){
+        return  AlertDialog(
+          elevation: 100,
+          actions: [
+             const TextField(
+                decoration: InputDecoration(
+                  labelText: 'Titre',
+                ),
+              ),
+               const TextField(
+                decoration: InputDecoration(
+                  labelText: 'Montant',
+                ),
+              ),
+             DropdownButtonFormField(
+
+              items: [
+                DropdownMenuItem(
+                  child: Text('transport')
+                  ),
+              ], 
+              onChanged: (value){
+              }
+              ),
+              TextButton(
+                onPressed:(){}, 
+                child: Text(
+                  'Valider', 
+                  style: TextStyle(color: noir, fontSize: 25 ),)
+                )
+
+          ],
+          title: Text('Ajouter une dépense'),
+
+        );
+
+      }
       );
   }
+
+  // void _shownavbar(BuildContext ctx){
+  //    showBottomSheet(
+  //     context: ctx, 
+  //     builder: (_){
+  //        return GestureDetector(
+  //         onTap: (){},
+  //         child: Container(
+  //           height: 500,
+  //           // child: AddDepense(),
+  //         ),
+  //        );
+  //    }
+  //     );
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +79,7 @@ class Bottom_Nav_Bar extends StatelessWidget {
                         Center(
                           heightFactor: 0.6,
                           child: FloatingActionButton(
-                            onPressed:() => _shownavbar(context),
+                            onPressed:() => _dialogue(context),
                             backgroundColor: noir,
                             child: Icon(Icons.add, color: blanc,),
                             elevation: 0.1,

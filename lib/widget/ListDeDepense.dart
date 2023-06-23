@@ -1,27 +1,26 @@
 import 'package:flutter/material.dart';
 
-class AddDepense extends StatefulWidget {
-  const AddDepense({super.key});
+import '../model/depense.dart';
 
-  @override
-  State<AddDepense> createState() => _AddDepenseState();
-}
+class ListDepense extends StatelessWidget {
 
-class _AddDepenseState extends State<AddDepense> {
+   ListDepense(this.mesDepense);
+     final List<Depense> mesDepense;
+
   @override
   Widget build(BuildContext context) {
     return  Container(
              width: 400,
              height: 300,
              child: ListView.builder(
-              itemCount: 1,
+              itemCount: mesDepense.length,
               itemBuilder: (context, index){
                 return Card(
                   elevation: 4,
                   child: ListTile(
-                 onTap: (){},
-                 title: Text('Achat de chaussure'),
-                 subtitle: Text('24000fr'),
+                 leading: Text('${mesDepense[index].montant}Fr'),
+                 title: Text(mesDepense[index].titre),
+                 subtitle: Text(mesDepense[index].categorie),
                  trailing: Icon(Icons.delete, color: Colors.red,),
                ),
               );
