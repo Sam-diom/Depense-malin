@@ -100,11 +100,11 @@ class _HomePageState extends State<HomePage> {
           // Other Sliver Widgets
           SliverList(
             delegate: SliverChildListDelegate([
-              const SizedBox(
+              SizedBox(
                 height: 400,
                 child: Center(
                   child: Text(
-                    'Gérez vos dépenses comme un malin 🤣',
+                    'email connecter: ${user.email} 🤣',
                   ),
                 ),
               ),

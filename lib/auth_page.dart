@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+import 'auth_service.dart';
+import 'connexionAvec.dart';
+import 'monBouton_connexion.dart';
+import 'mon_textField.dart';
+
 class AuthPage extends StatefulWidget {
   const AuthPage({super.key, required this.onTap});
   final Function()? onTap;
@@ -31,10 +36,13 @@ class _AuthPageState extends State<AuthPage> {
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: emailController.text, password: passwordController.text);
+      // ignore: use_build_context_synchronously
+      Navigator.of(context).pop();
     } on FirebaseAuthException catch (e) {
       // pop l'icone de chargement
       Navigator.of(context).pop();
       monMessageDerreur(e.code);
+
       /* if (e.code == 'user-not-found') {
         //mauvais email
         messageMauvaisMail();
@@ -43,7 +51,6 @@ class _AuthPageState extends State<AuthPage> {
         messageMauvaisMotDePasse();
       } */
     }
-    Navigator.of(context).pop();
   }
 
   void monMessageDerreur(String text) {
@@ -51,10 +58,12 @@ class _AuthPageState extends State<AuthPage> {
         context: context,
         builder: ((context) {
           return AlertDialog(
-            backgroundColor: Colors.black,
-            title: Text(
-              text,
-              style: const TextStyle(color: Colors.white),
+            backgroundColor: Colors.red,
+            title: Center(
+              child: Text(
+                text,
+                style: const TextStyle(color: Colors.white),
+              ),
             ),
           );
         }));
@@ -163,19 +172,28 @@ class _AuthPageState extends State<AuthPage> {
           ),
 
           // google + apple sign in buttons
-          const Row(
+          Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               // google button
-              ConnexionAvec(imagePath: 'assets/images/google.png'),
+              ConnexionAvec(
+                imagePath: 'assets/images/google.png',
+                onTap: () => AuthService().connexionAvecGoogle(),
+              ),
 
-              SizedBox(width: 10),
+              const SizedBox(width: 10),
 
-              ConnexionAvec(imagePath: 'assets/images/GitHub-Mark.png'),
-              SizedBox(width: 10),
+              ConnexionAvec(
+                imagePath: 'assets/images/GitHub-Mark.png',
+                onTap: () => AuthService().connexionAvecGithub(context),
+              ),
+              const SizedBox(width: 10),
 
               // fb button
-              ConnexionAvec(imagePath: 'assets/images/fb.png'),
+              ConnexionAvec(
+                imagePath: 'assets/images/fb.png',
+                onTap: () {},
+              ),
 
               //github button
             ],
@@ -206,93 +224,5 @@ class _AuthPageState extends State<AuthPage> {
         ]),
       ),
     ))));
-  }
-}
-
-class ConnexionAvec extends StatelessWidget {
-  final String imagePath;
-
-  const ConnexionAvec({
-    super.key,
-    required this.imagePath,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(20),
-      height: 60,
-      width: 60,
-      decoration: BoxDecoration(
-          image: DecorationImage(
-        image: AssetImage(imagePath),
-      )),
-    );
-  }
-}
-
-class MonButton extends StatelessWidget {
-  final Function()? onTap;
-  final String text;
-
-  const MonButton({super.key, required this.onTap, required this.text});
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.all(25),
-        margin: const EdgeInsets.symmetric(horizontal: 25),
-        decoration: BoxDecoration(
-          color: Colors.black,
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Center(
-          child: Text(
-            text,
-            style: const TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontSize: 16,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class MonTextField extends StatelessWidget {
-  const MonTextField({
-    super.key,
-    required this.controller,
-    required this.hintText,
-    required this.obscureText,
-  });
-
-  final String hintText;
-  final bool obscureText;
-
-  final TextEditingController controller;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 25.0),
-      child: TextField(
-        controller: controller,
-        obscureText: obscureText,
-        decoration: InputDecoration(
-            enabledBorder: const OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.white)),
-            focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.grey.shade400)),
-            fillColor: Colors.grey.shade200,
-            filled: true,
-            hintText: hintText,
-            hintStyle: TextStyle(color: Colors.grey[500])),
-      ),
-    );
   }
 }
