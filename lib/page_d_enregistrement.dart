@@ -128,17 +128,6 @@ class _PageDenregistrementState extends State<PageDenregistrement> {
                         obscureText: true,
                       ),
 
-                      /* Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 25.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Text(
-                    "Mot de passe oublié?",
-                    style: TextStyle(color: Colors.grey[600]),
-                  )
-                ],
-              )), */
                       const SizedBox(
                         height: 40,
                       ),
@@ -200,14 +189,6 @@ class _PageDenregistrementState extends State<PageDenregistrement> {
                             onTap: () {},
                           ),
                           const SizedBox(width: 10),
-
-                          // fb button
-                          /* ConnexionAvec(
-                imagePath: 'assets/images/fb.png',
-                onTap: () {},
-              ), */
-
-                          //github button
                         ],
                       ),
 

@@ -35,22 +35,5 @@ class AuthService {
     return await FirebaseAuth.instance.signInWithCredential(credential);
   }
 
-  motDePasseOublier(){
-    
-  }
-
-  /*  Future<UserCredential> connexionAvecFacebook() async {
-    final LoginResult loginResult =
-        await FacebookAuth.instance.login(permissions: ['email']);
-
-    if (loginResult == LoginStatus.success) {
-      final userData = await FacebookAuth.instance.getUserData();
-      _userData = userData;
-    } else {
-      print(loginResult.message);
-    }
-    final OAuthCredential oAuthCredential =
-        FacebookAuthProvider.credential(loginResult.accessToken!.token);
-    return FirebaseAuth.instance.signInWithCredential(oAuthCredential);
-  } */
+  
 }

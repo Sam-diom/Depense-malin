@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'monBouton_connexion.dart';
@@ -14,8 +15,6 @@ class MotDePasseOublier extends StatefulWidget {
 class _MotDePasseOublierState extends State<MotDePasseOublier> {
   final emailController = TextEditingController();
 
-  final passwordController = TextEditingController();
-  final confirmPassword = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,136 +59,73 @@ class _MotDePasseOublierState extends State<MotDePasseOublier> {
                         hintText: 'Email',
                         obscureText: false,
                       ),
-                      /* const SizedBox(
-                        height: 20,
-                      ),
-                      //password textfield
-                      MonTextField(
-                        controller: passwordController,
-                        hintText: 'Mot de passe',
-                        obscureText: true,
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      //confirm password textfield
-                      MonTextField(
-                        controller: confirmPassword,
-                        hintText: 'Confirmer le mot de passe',
-                        obscureText: true,
-                      ), */
 
-                      /* Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 25.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Text(
-                    "Mot de passe oublié?",
-                    style: TextStyle(color: Colors.grey[600]),
-                  )
-                ],
-              )), */
                       const SizedBox(
                         height: 40,
                       ),
 
                       MonButton(
                         onTap: singUserUp,
-                        text: "soumettre",
+                        text: "Envoyer",
                       ),
                       const SizedBox(
-                        height: 40,
+                        height: 80,
                       ),
 
-                      // or continue with
-                      /*    Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Divider(
-                                thickness: 0.5,
-                                color: Colors.grey[400],
-                              ),
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 10.0),
-                              child: Text(
-                                '***************',
-                                style: TextStyle(color: Colors.grey[700]),
-                              ),
-                            ),
-                            Expanded(
-                              child: Divider(
-                                thickness: 0.5,
-                                color: Colors.grey[400],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ), */
+                      const Text(
+                          "Un message de reinitialisation vous sera envoyé"),
+
                       const SizedBox(
                         height: 50,
                       ),
 
-                      // google + apple sign in buttons
-                      /*  Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          // google button
-                          ConnexionAvec(
-                            imagePath: 'assets/images/google.png',
-                            onTap: () => AuthService().connexionAvecGoogle(),
-                          ),
-
-                          const SizedBox(width: 45),
-
-                          ConnexionAvec(
-                            imagePath: 'assets/images/git.png',
-                            onTap: () {},
-                          ),
-                          const SizedBox(width: 10),
-
-                          // fb button
-                          /* ConnexionAvec(
-                imagePath: 'assets/images/fb.png',
-                onTap: () {},
-              ), */
-
-                          //github button
-                        ],
-                      ), */
-
                       const SizedBox(
                         height: 60,
                       ),
-
-                      // not a member? register now
-                      /* Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              'Vous avez déjà un compte?',
-                              style: TextStyle(color: Colors.grey[700]),
-                            ),
-                            const SizedBox(width: 4),
-                            GestureDetector(
-                              onTap: widget.onTap,
-                              child: const Text(
-                                'connectez vous',
-                                style: TextStyle(
-                                  color: Colors.blue,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ]), */
                     ]),
               ),
             ))));
   }
 
-  singUserUp() {}
+  singUserUp() async {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        });
+
+
+    //try sing in
+    try {
+      await FirebaseAuth.instance
+          .sendPasswordResetEmail(email: emailController.text);
+
+      // ignore: use_build_context_synchronously
+      Navigator.of(context).pop();
+
+      monMessageDerreur("Verifiez votre boite mail");
+    } on FirebaseAuthException catch (e) {
+      // pop l'icone de chargement
+      Navigator.of(context).pop();
+      monMessageDerreur(e.code);
+    }
+  }
+
+  void monMessageDerreur(String text) {
+    showDialog(
+        context: context,
+        builder: ((context) {
+          return AlertDialog(
+            backgroundColor: Colors.red,
+            title: Center(
+              child: Text(
+                text,
+                style: const TextStyle(color: Colors.white),
+              ),
+            ),
+          );
+        }));
+  }
 }

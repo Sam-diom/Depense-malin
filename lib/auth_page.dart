@@ -37,20 +37,12 @@ class _AuthPageState extends State<AuthPage> {
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: emailController.text, password: passwordController.text);
-      // ignore: use_build_context_synchronously
+
       Navigator.of(context).pop();
     } on FirebaseAuthException catch (e) {
       // pop l'icone de chargement
       Navigator.of(context).pop();
       monMessageDerreur(e.code);
-
-      /* if (e.code == 'user-not-found') {
-        //mauvais email
-        messageMauvaisMail();
-      } else if (e.code == 'wrong-password') {
-        //mauvais mots de passe
-        messageMauvaisMotDePasse();
-      } */
     }
   }
 
@@ -87,10 +79,7 @@ class _AuthPageState extends State<AuthPage> {
                       const SizedBox(
                         height: 20,
                       ),
-                      /* const Icon(
-            Icons.lock,
-            size: 100,
-          ), */
+
                       Image.asset(
                         "assets/images/ic_launcher.png",
                         height: MediaQuery.of(context).size.height / 8,
@@ -208,14 +197,6 @@ class _AuthPageState extends State<AuthPage> {
                                 AuthService().connexionAvecGithub(context),
                           ),
                           const SizedBox(width: 10),
-
-                          // fb button
-                          /*   ConnexionAvec(
-                            imagePath: 'assets/images/fb.png',
-                            onTap: () {},
-                          ), */
-
-                          //github button
                         ],
                       ),
 
