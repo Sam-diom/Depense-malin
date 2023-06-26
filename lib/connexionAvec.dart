@@ -16,8 +16,8 @@ class ConnexionAvec extends StatelessWidget {
       onTap: onTap,
       child: Container(
         padding: const EdgeInsets.all(20),
-        height: 60,
-        width: 60,
+        height: 40,
+        width: 40,
         decoration: BoxDecoration(
             image: DecorationImage(
           image: AssetImage(imagePath),

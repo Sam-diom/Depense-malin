@@ -5,6 +5,7 @@ import 'auth_service.dart';
 import 'connexionAvec.dart';
 import 'monBouton_connexion.dart';
 import 'mon_textField.dart';
+import 'mot_de_passe_oublier.dart';
 
 class AuthPage extends StatefulWidget {
   const AuthPage({super.key, required this.onTap});
@@ -72,157 +73,178 @@ class _AuthPageState extends State<AuthPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: SafeArea(
+        body: Container(
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            color: const Color.fromARGB(255, 185, 222, 224),
             child: Center(
                 child: Padding(
-      padding: const EdgeInsets.all(15.0),
-      child: SingleChildScrollView(
-        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          const SizedBox(
-            height: 20,
-          ),
-          const Icon(
+              padding: const EdgeInsets.all(15.0),
+              child: SingleChildScrollView(
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      /* const Icon(
             Icons.lock,
             size: 100,
-          ),
-          const SizedBox(
-            height: 40,
-          ),
+          ), */
+                      Image.asset(
+                        "assets/images/ic_launcher.png",
+                        height: MediaQuery.of(context).size.height / 8,
+                      ),
 
-          Text(
-            "Bienvenue!",
-            style: TextStyle(color: Colors.grey[700], fontSize: 16),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
+                      const SizedBox(
+                        height: 60,
+                      ),
 
-          //userName textField
+                      Text(
+                        "Bienvenue!",
+                        style: TextStyle(color: Colors.grey[700], fontSize: 16),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
 
-          MonTextField(
-            controller: emailController,
-            hintText: 'Email',
-            obscureText: false,
-          ),
-          const SizedBox(
-            height: 20,
-          ),
+                      //userName textField
 
-          MonTextField(
-            controller: passwordController,
-            hintText: 'Password',
-            obscureText: true,
-          ),
-          const SizedBox(
-            height: 8,
-          ),
+                      MonTextField(
+                        controller: emailController,
+                        hintText: 'Email',
+                        obscureText: false,
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
 
-          Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 25.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Text(
-                    "Mot de passe oublié?",
-                    style: TextStyle(color: Colors.grey[600]),
-                  )
-                ],
-              )),
-          const SizedBox(
-            height: 30,
-          ),
+                      MonTextField(
+                        controller: passwordController,
+                        hintText: 'Password',
+                        obscureText: true,
+                      ),
 
-          MonButton(
-            onTap: singUser,
-            text: 'Connexion',
-          ),
-          const SizedBox(
-            height: 40,
-          ),
+                      Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              TextButton(
+                                onPressed: () {
+                                  MaterialPageRoute route = MaterialPageRoute(
+                                    builder: (context) =>
+                                        const MotDePasseOublier(),
+                                  );
+                                  Navigator.push(context, route);
+                                },
+                                child: const Text(
+                                  "Mot de passe oublié?",
+                                  style: TextStyle(
+                                      color: Color.fromARGB(255, 49, 119, 223)),
+                                ),
+                              )
+                            ],
+                          )),
+                      const SizedBox(
+                        height: 42,
+                      ),
 
-          // or continue with
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 25.0),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Divider(
-                    thickness: 0.5,
-                    color: Colors.grey[400],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                  child: Text(
-                    'Ou continue avec',
-                    style: TextStyle(color: Colors.grey[700]),
-                  ),
-                ),
-                Expanded(
-                  child: Divider(
-                    thickness: 0.5,
-                    color: Colors.grey[400],
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(
-            height: 50,
-          ),
+                      MonButton(
+                        onTap: singUser,
+                        text: 'Connexion',
+                      ),
+                      const SizedBox(
+                        height: 40,
+                      ),
 
-          // google + apple sign in buttons
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              // google button
-              ConnexionAvec(
-                imagePath: 'assets/images/google.png',
-                onTap: () => AuthService().connexionAvecGoogle(),
+                      // or continue with
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Divider(
+                                thickness: 0.5,
+                                color: Colors.grey[700],
+                              ),
+                            ),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10.0),
+                              child: Text(
+                                'Ou continue avec',
+                                style: TextStyle(color: Colors.grey[700]),
+                              ),
+                            ),
+                            Expanded(
+                              child: Divider(
+                                thickness: 0.5,
+                                color: Colors.grey[700],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 50,
+                      ),
+
+                      // google + apple sign in buttons
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          // google button
+                          ConnexionAvec(
+                            imagePath: 'assets/images/google.png',
+                            onTap: () => AuthService().connexionAvecGoogle(),
+                          ),
+
+                          const SizedBox(width: 40),
+
+                          ConnexionAvec(
+                            imagePath: 'assets/images/git.png',
+                            onTap: () =>
+                                AuthService().connexionAvecGithub(context),
+                          ),
+                          const SizedBox(width: 10),
+
+                          // fb button
+                          /*   ConnexionAvec(
+                            imagePath: 'assets/images/fb.png',
+                            onTap: () {},
+                          ), */
+
+                          //github button
+                        ],
+                      ),
+
+                      const SizedBox(
+                        height: 60,
+                      ),
+
+                      // not a member? register now
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Pas encore inscrit?',
+                              style: TextStyle(color: Colors.grey[700]),
+                            ),
+                            const SizedBox(width: 4),
+                            GestureDetector(
+                              onTap: widget.onTap,
+                              child: const Text(
+                                'S\'inscrire maintenant',
+                                style: TextStyle(
+                                  color: Color.fromARGB(255, 49, 119, 223),
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ]),
+                    ]),
               ),
-
-              const SizedBox(width: 10),
-
-              ConnexionAvec(
-                imagePath: 'assets/images/GitHub-Mark.png',
-                onTap: () => AuthService().connexionAvecGithub(context),
-              ),
-              const SizedBox(width: 10),
-
-              // fb button
-              ConnexionAvec(
-                imagePath: 'assets/images/fb.png',
-                onTap: () {},
-              ),
-
-              //github button
-            ],
-          ),
-
-          const SizedBox(
-            height: 60,
-          ),
-
-          // not a member? register now
-          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            Text(
-              'Pas encore inscrit?',
-              style: TextStyle(color: Colors.grey[700]),
-            ),
-            const SizedBox(width: 4),
-            GestureDetector(
-              onTap: widget.onTap,
-              child: const Text(
-                'S\'inscrire maintenant',
-                style: TextStyle(
-                  color: Colors.blue,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-          ]),
-        ]),
-      ),
-    ))));
+            ))));
   }
 }
