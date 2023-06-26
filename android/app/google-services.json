@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "1077784382759",
+    "project_id": "authentificationdepensemalin",
+    "storage_bucket": "authentificationdepensemalin.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1077784382759:android:f628e8c113b13a0906ad02",
+        "android_client_info": {
+          "package_name": "com.example.depense_malin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1077784382759-063bgulvalvvl7rudagbrcpu6rh0v6fn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDVXEnOC1o2CNsmST3MKGWvKvu7Xjy79Mw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1077784382759-063bgulvalvvl7rudagbrcpu6rh0v6fn.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1077784382759-csu6qji7005gtcngd92ot47cg4hntuq3.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.depenseMalin.RunnerTests"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
