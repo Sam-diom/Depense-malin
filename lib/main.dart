@@ -104,7 +104,7 @@ class _HomePageState extends State<HomePage> {
                 height: 400,
                 child: Center(
                   child: Text(
-                    'email connecter: ${user.email} 🤣',
+                    'email connecté: ${user.email} 🤣',
                   ),
                 ),
               ),
