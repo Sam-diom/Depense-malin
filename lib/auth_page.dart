@@ -37,13 +37,12 @@ class _AuthPageState extends State<AuthPage> {
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: emailController.text, password: passwordController.text);
-
-      Navigator.of(context).pop();
     } on FirebaseAuthException catch (e) {
       // pop l'icone de chargement
       Navigator.of(context).pop();
       monMessageDerreur(e.code);
     }
+    Navigator.of(context).pop();
   }
 
   void monMessageDerreur(String text) {

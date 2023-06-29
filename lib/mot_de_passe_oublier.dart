@@ -96,7 +96,6 @@ class _MotDePasseOublierState extends State<MotDePasseOublier> {
           );
         });
 
-
     //try sing in
     try {
       await FirebaseAuth.instance
@@ -104,12 +103,19 @@ class _MotDePasseOublierState extends State<MotDePasseOublier> {
 
       // ignore: use_build_context_synchronously
       Navigator.of(context).pop();
+      setState(() {
+        emailController.text = " ";
+      });
 
       monMessageDerreur("Verifiez votre boite mail");
     } on FirebaseAuthException catch (e) {
       // pop l'icone de chargement
       Navigator.of(context).pop();
       monMessageDerreur(e.code);
+      setState(() {
+        emailController.text = " ";
+      });
+      
     }
   }
 
